@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>คู่มือการจัดกิจกรรมวิ่งตามภูมิประเทศ (Trail Running) - ฉบับละเอียด</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --primary: #1a5c38;
+  --primary-light: #2d8653;
+  --primary-dark: #0f3d25;
+  --accent: #f0a500;
+  --accent-light: #ffc940;
+  --danger: #c0392b;
+  --warning: #e67e22;
+  --info: #2980b9;
+  --success: #27ae60;
+  --bg: #f5f7f5;
+  --card: #ffffff;
+  --text: #2c3e50;
+  --text-light: #5d6d7e;
+  --border: #d5e8d4;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Sarabun', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+/* Layout */
+.layout { display: flex; min-height: 100vh; }
+#toc-sidebar {
+  width: 270px;
+  min-width: 270px;
+  background: var(--primary-dark);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 0 0 2rem 0;
+  z-index: 100;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-light) transparent;
+}
+#toc-sidebar::-webkit-scrollbar { width: 4px; }
+#toc-sidebar::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+.toc-header {
+  background: var(--primary);
+  padding: 1.2rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.toc-header h2 { color: #fff; font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
+.toc-header p { color: rgba(255,255,255,0.6); font-size: 0.75rem; margin-top: 0.2rem; }
+.toc-nav { padding: 0.5rem 0; }
+.toc-section { border-bottom: 1px solid rgba(255,255,255,0.06); }
+.toc-section-link {
+  display: block;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.toc-section-link:hover, .toc-section-link.active {
+  background: var(--primary-light);
+  color: #fff;
+  padding-left: 1.4rem;
+}
+.toc-sub { padding: 0 0 0.3rem 1rem; display: none; }
+.toc-section.open .toc-sub { display: block; }
+.toc-sub-link {
+  display: block;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.76rem;
+  border-left: 2px solid rgba(255,255,255,0.15);
+  transition: all 0.2s;
+}
+.toc-sub-link:hover { color: var(--accent-light); border-left-color: var(--accent); }
+.main-content { flex: 1; min-width: 0; padding: 2rem 2.5rem; max-width: 1000px; }
+/* Header */
+.page-header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%);
+  color: #fff;
+  padding: 2.5rem 2.5rem;
+  margin: -2rem -2.5rem 2.5rem -2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-header h1 { font-size: 1.7rem; font-weight: 700; line-height: 1.3; position: relative; }
+.page-header .subtitle { font-size: 1rem; opacity: 0.8; margin-top: 0.5rem; position: relative; }
+.page-header .badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-top: 0.8rem;
+  font-weight: 600;
+}
+/* Section */
+.section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 1rem;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--primary);
+}
+.section-num {
+  background: var(--primary);
+  color: #fff;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.section-header h2 { font-size: 1.3rem; font-weight: 700; color: var(--primary-dark); }
+/* Cards */
+.card {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.2rem;
+  border: 1px solid var(--border);
+}
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+/* Grid layouts */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+/* Info boxes */
+.info-box {
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+}
+.info-box.green { background: #e8f5e9; border-left: 4px solid var(--success); }
+.info-box.orange { background: #fff3e0; border-left: 4px solid var(--warning); }
+.info-box.red { background: #fdecea; border-left: 4px solid var(--danger); }
+.info-box.blue { background: #e3f2fd; border-left: 4px solid var(--info); }
+.info-box.yellow { background: #fffde7; border-left: 4px solid var(--accent); }
+.info-box .icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
+.info-box p { font-size: 0.9rem; line-height: 1.6; }
+.info-box strong { font-weight: 600; }
+/* Tables */
+.table-wrap { overflow-x: auto; margin-bottom: 1rem; border-radius: 8px; box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; background: #fff; font-size: 0.88rem; }
+thead { background: var(--primary); color: #fff; }
+thead th { padding: 0.7rem 0.9rem; text-align: left; font-weight: 600; }
+tbody tr:nth-child(even) { background: #f0f7f0; }
+tbody tr:hover { background: #e0f0e0; }
+td, th { padding: 0.6rem 0.9rem; border-bottom: 1px solid #e0eee0; vertical-align: top; }
+td:first-child { font-weight: 500; }
+/* Distance cards */
+.dist-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
+.dist-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--primary);
+  transition: transform 0.2s;
+}
+.dist-card:hover { transform: translateY(-3px); }
+.dist-card .km { font-size: 2rem; font-weight: 700; color: var(--primary); }
+.dist-card .label { font-size: 0.8rem; color: var(--text-light); margin-top: 0.3rem; }
+.dist-card .badge { font-size: 0.72rem; background: var(--primary); color: #fff; padding: 0.15rem 0.5rem; border-radius: 20px; display: inline-block; margin-top: 0.5rem; }
+/* Step flow */
+.steps { display: flex; flex-direction: column; gap: 0.5rem; }
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  border: 1px solid var(--border);
+}
+.step-num {
+  background: var(--primary);
+  color: #fff;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.step-content h4 { font-size: 0.9rem; font-weight: 600; color: var(--primary-dark); }
+.step-content p { font-size: 0.84rem; color: var(--text-light); margin-top: 0.2rem; }
+/* Risk bar */
+.risk-item { margin-bottom: 1rem; }
+.risk-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem; }
+.risk-bar { height: 10px; background: #e0e0e0; border-radius: 5px; overflow: hidden; }
+.risk-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
+/* Checklist */
+.checklist-group { margin-bottom: 1.5rem; }
+.checklist-group h4 { font-size: 0.95rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.8rem; padding: 0.4rem 0.8rem; background: #e8f5e9; border-radius: 5px; }
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.5rem 0.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.85rem;
+}
+.check-item:last-child { border-bottom: none; }
+.check-num { color: var(--primary); font-weight: 700; font-size: 0.8rem; min-width: 24px; margin-top: 0.1rem; }
+.check-text { flex: 1; }
+.check-note { font-size: 0.77rem; color: var(--text-light); margin-top: 0.2rem; font-style: italic; }
+/* Role grid */
+.role-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+.role-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  border-left: 3px solid var(--primary);
+}
+.role-card h4 { font-size: 0.88rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem; }
+.role-card ul { list-style: none; }
+.role-card li { font-size: 0.8rem; color: var(--text-light); padding: 0.2rem 0; padding-left: 1rem; position: relative; }
+.role-card li::before { content: '•'; color: var(--primary); position: absolute; left: 0; }
+/* Timeline */
+.timeline { position: relative; padding-left: 2rem; }
+.timeline::before { content: ''; position: absolute; left: 0.6rem; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.timeline-item { position: relative; margin-bottom: 1.2rem; }
+.timeline-dot {
+  position: absolute;
+  left: -1.6rem;
+  top: 0.3rem;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--primary);
+}
+.timeline-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--primary-dark); }
+.timeline-item p { font-size: 0.83rem; color: var(--text-light); margin-top: 0.2rem; }
+.timeline-item .week-badge {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 20px;
+  margin-bottom: 0.3rem;
+}
+/* Equipment grid */
+.equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
+.equip-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  font-size: 0.83rem;
+  border: 1px solid var(--border);
+}
+.equip-item .equip-icon { font-size: 1.2rem; }
+/* Chart containers */
+.chart-container { background: #fff; border-radius: 10px; padding: 1.2rem; box-shadow: var(--shadow); margin-bottom: 1.2rem; }
+.chart-container h3 { font-size: 0.95rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 1rem; }
+/* Sub-section headers */
+.sub-header {
+  background: #f0f7f0;
+  border-left: 4px solid var(--primary-light);
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  border-radius: 0 6px 6px 0;
+  margin: 1.2rem 0 0.8rem 0;
+}
+/* Summary stat cards */
+.stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  color: #fff;
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: center;
+}
+.stat-card .val { font-size: 2rem; font-weight: 700; }
+.stat-card .lbl { font-size: 0.78rem; opacity: 0.85; margin-top: 0.3rem; }
+/* Scroll-to-top */
+#to-top {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: none;
+  z-index: 999;
+  transition: background 0.2s;
+}
+#to-top:hover { background: var(--primary-dark); }
+/* Principles box */
+.principle {
+  background: #fff;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.7rem;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 0.8rem;
+}
+.principle-num { font-size: 1.3rem; font-weight: 800; color: var(--primary-light); flex-shrink: 0; }
+.principle-body h4 { font-size: 0.88rem; font-weight: 700; color: var(--primary-dark); }
+.principle-body p { font-size: 0.83rem; color: var(--text-light); margin-top: 0.2rem; }
+/* Pill tags */
+.pill { display: inline-block; background: #e8f5e9; color: var(--primary-dark); font-size: 0.77rem; padding: 0.2rem 0.6rem; border-radius: 20px; margin: 0.15rem; border: 1px solid #c8e6c9; }
+/* Responsive */
+@media (max-width: 900px) {
+  #toc-sidebar { display: none; }
+  .main-content { padding: 1rem; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .dist-cards { grid-template-columns: 1fr 1fr; }
+  .stat-cards { grid-template-columns: 1fr 1fr; }
+  .role-grid { grid-template-columns: 1fr; }
+  .equip-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- TOC Sidebar -->
+<nav id="toc-sidebar">
+  <div class="toc-header">
+    <h2>คู่มือจัดกิจกรรม<br>วิ่งตามภูมิประเทศ</h2>
+    <p>Trail Running – ฉบับละเอียด</p>
+  </div>
+  <div class="toc-nav">
+    <div class="toc-section"><a href="#intro" class="toc-section-link">📖 บทนำ</a></div>
+    <div class="toc-section"><a href="#s1" class="toc-section-link">๑. คำจำกัดความ</a></div>
+    <div class="toc-section"><a href="#s2" class="toc-section-link">๒. แนวคิดพื้นฐาน</a></div>
+    <div class="toc-section"><a href="#s3" class="toc-section-link">๓. ลักษณะของกิจกรรม</a></div>
+    <div class="toc-section"><a href="#s4" class="toc-section-link">๔. ความปลอดภัยและความเสี่ยง</a></div>
+    <div class="toc-section">
+      <a href="#s5" class="toc-section-link">๕. การเตรียมการก่อนแข่ง</a>
+      <div class="toc-sub">
+        <a href="#s5-1" class="toc-sub-link">๕.๑ การขออนุญาต</a>
+        <a href="#s5-2" class="toc-sub-link">๕.๒ การประกันภัย</a>
+        <a href="#s5-5" class="toc-sub-link">๕.๕ การสำรวจเส้นทาง</a>
+        <a href="#s5-10" class="toc-sub-link">๕.๑๐ การประชาสัมพันธ์</a>
+        <a href="#s5-14" class="toc-sub-link">๕.๑๔ แผนที่และสัญลักษณ์</a>
+        <a href="#s5-18" class="toc-sub-link">๕.๑๘ เครื่องหมายบอกทาง</a>
+      </div>
+    </div>
+    <div class="toc-section">
+      <a href="#s6" class="toc-section-link">๖. บริหารจัดการวันแข่ง</a>
+      <div class="toc-sub">
+        <a href="#s6-3" class="toc-sub-link">๖.๓ การสื่อสาร</a>
+        <a href="#s6-5" class="toc-sub-link">๖.๕ สถานีบริการ</a>
+        <a href="#s6-8" class="toc-sub-link">๖.๘ ผู้หลงทาง</a>
+        <a href="#s6-11" class="toc-sub-link">๖.๑๑ อุปกรณ์บังคับ</a>
+        <a href="#s6-15" class="toc-sub-link">๖.๑๕ เวลาตัดตัว</a>
+      </div>
+    </div>
+    <div class="toc-section"><a href="#s7" class="toc-section-link">๗. แนวคิดผู้จัดกิจกรรม</a></div>
+    <div class="toc-section">
+      <a href="#s8" class="toc-section-link">๘. การจัดการความปลอดภัย</a>
+      <div class="toc-sub">
+        <a href="#s8-1" class="toc-sub-link">๘.๑ เตรียมพร้อมความปลอดภัย</a>
+        <a href="#s8-2" class="toc-sub-link">๘.๒ มาตรการระหว่างแข่ง</a>
+        <a href="#s8-3" class="toc-sub-link">๘.๓ มาตรการเชิงป้องกัน</a>
+      </div>
+    </div>
+    <div class="toc-section">
+      <a href="#s9" class="toc-section-link">๙. แผนการแพทย์ฉุกเฉิน</a>
+      <div class="toc-sub">
+        <a href="#s9-3" class="toc-sub-link">๙.๓ บุคลากรทางการแพทย์</a>
+        <a href="#s9-4" class="toc-sub-link">๙.๔ วิธีการและสถานี</a>
+        <a href="#s9-6" class="toc-sub-link">๙.๖ ประเด็นสำคัญ</a>
+      </div>
+    </div>
+    <div class="toc-section"><a href="#checklist" class="toc-section-link">☑ Checklist 84 รายการ</a></div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+
+<div class="page-header">
+  <h1>คู่มือการจัดกิจกรรมวิ่งตามภูมิประเทศ<br>(Trail Running)</h1>
+  <p class="subtitle">กระทรวงการท่องเที่ยวและกีฬา — ฉบับอ้างอิงสำหรับผู้จัดกิจกรรม</p>
+  <span class="badge">ฉบับละเอียด • ครอบคลุม ๙ หมวดหลัก + Checklist ๘๔ รายการ</span>
+</div>
+
+<!-- Summary Stats -->
+<div class="stat-cards">
+  <div class="stat-card"><div class="val">9</div><div class="lbl">หมวดหลัก</div></div>
+  <div class="stat-card"><div class="val">84</div><div class="lbl">รายการ Checklist</div></div>
+  <div class="stat-card"><div class="val">5</div><div class="lbl">หมวด Checklist</div></div>
+  <div class="stat-card"><div class="val">98</div><div class="lbl">หน้า (ต้นฉบับ)</div></div>
+</div>
+
+<!-- INTRO -->
+<section class="section" id="intro">
+  <div class="section-header">
+    <div class="section-num">📖</div>
+    <h2>บทนำ</h2>
+  </div>
+  <div class="card">
+    <p>ปัจจุบัน การวิ่งตามภูมิประเทศ (Trail Running) กำลังได้รับความนิยมจากประชาชนชาวไทยในลักษณะที่เพิ่มขึ้นอย่างรวดเร็ว จำนวนกิจกรรมและผู้เข้าร่วมก็มีแนวโน้มเพิ่มขึ้นเช่นกัน คู่มือนี้จัดทำขึ้นเพื่อเป็นแนวทางสำหรับ<strong>ผู้จัดกิจกรรม</strong>ให้สามารถจัดการแข่งขันได้อย่างปลอดภัยและมีมาตรฐาน</p>
+  </div>
+  <div class="grid-2">
+    <div class="info-box green"><span class="icon">🎯</span><p><strong>เป้าหมายหลัก:</strong> ให้ผู้จัดกิจกรรมมีความเข้าใจในทุกมิติ ตั้งแต่การขออนุญาต การวางแผนเส้นทาง การดูแลความปลอดภัย จนถึงแผนการแพทย์ฉุกเฉิน</p></div>
+    <div class="info-box blue"><span class="icon">👥</span><p><strong>กลุ่มเป้าหมาย:</strong> ผู้จัดกิจกรรม คณะทำงาน อาสาสมัคร และหน่วยงานที่เกี่ยวข้องกับการจัดกิจกรรมวิ่งตามภูมิประเทศทั่วประเทศไทย</p></div>
+  </div>
+</section>
+
+<!-- SECTION 1 -->
+<section class="section" id="s1">
+  <div class="section-header">
+    <div class="section-num">๑</div>
+    <h2>คำจำกัดความของการวิ่งตามภูมิประเทศ (Trail Running)</h2>
+  </div>
+  <div class="card">
+    <p>หลายคนยังมีความสับสนระหว่าง "วิ่งตามภูมิประเทศ" กับ "วิ่งถนน" ซึ่งทั้งสองกิจกรรมนี้มีความแตกต่างกันอย่างชัดเจน Trail Running คือการวิ่งในสภาพแวดล้อมตามธรรมชาติ ผ่านป่า เขา ลำธาร บนพื้นดิน ดิน ทราย หิน หรือพื้นผิวที่ไม่ใช่ถนนลาดยาง</p>
+  </div>
+  <div class="dist-cards">
+    <div class="dist-card" style="border-top-color:#27ae60">
+      <div class="km">&lt;8</div><div class="label">กิโลเมตร</div>
+      <div class="badge" style="background:#27ae60">ระยะสั้น</div>
+      <p style="font-size:0.75rem;color:#666;margin-top:0.5rem">ความเสี่ยงต่ำ ไม่จำเป็นต้องมีแผนความปลอดภัยซับซ้อน</p>
+    </div>
+    <div class="dist-card" style="border-top-color:#f0a500">
+      <div class="km">8–16</div><div class="label">กิโลเมตร</div>
+      <div class="badge" style="background:#f0a500">ระยะกลางสั้น</div>
+      <p style="font-size:0.75rem;color:#666;margin-top:0.5rem">เริ่มเข้าสู่กิจกรรมผจญภัย ต้องมีแผนความปลอดภัย</p>
+    </div>
+    <div class="dist-card" style="border-top-color:#e67e22">
+      <div class="km">16–32</div><div class="label">กิโลเมตร</div>
+      <div class="badge" style="background:#e67e22">ระยะกลาง</div>
+      <p style="font-size:0.75rem;color:#666;margin-top:0.5rem">ต้องมีสถานีบริการห่างไม่เกิน 10 กม. มีมาร์แชลครบ</p>
+    </div>
+    <div class="dist-card" style="border-top-color:#c0392b">
+      <div class="km">&gt;32</div><div class="label">กิโลเมตร</div>
+      <div class="badge" style="background:#c0392b">ระยะไกล/Ultra</div>
+      <p style="font-size:0.75rem;color:#666;margin-top:0.5rem">ต้องมีแผนการแพทย์เต็มรูปแบบ อุปกรณ์บังคับ GPS นำทาง</p>
+    </div>
+  </div>
+  <div class="info-box yellow">
+    <span class="icon">⚠️</span>
+    <p><strong>จุดสำคัญ:</strong> ตั้งแต่ระยะ ๘ กิโลเมตรขึ้นไป ถือว่ากิจกรรมเข้าสู่ระดับ "มีความเสี่ยงภัย" ซึ่งการเตรียมแผนความปลอดภัยจะถือเป็นสิ่งจำเป็น ไม่ใช่ทางเลือก</p>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="section" id="s2">
+  <div class="section-header">
+    <div class="section-num">๒</div>
+    <h2>แนวคิดพื้นฐานในการจัดกิจกรรม</h2>
+  </div>
+  <div class="principle">
+    <div class="principle-num">๒.๑</div>
+    <div class="principle-body">
+      <h4>ทุกพื้นที่มีเจ้าของ</h4>
+      <p>ไม่ว่าจะเป็นพื้นที่ส่วนบุคคล องค์กร หรืออยู่ในความรับผิดชอบของทางราชการ ผู้จัดต้องขออนุญาตให้ถูกต้องก่อนใช้พื้นที่ทุกครั้ง</p>
+    </div>
+  </div>
+  <div class="principle">
+    <div class="principle-num">๒.๒</div>
+    <div class="principle-body">
+      <h4>การใช้พื้นที่ต้องไม่ทำให้เกิดความเสียหาย</h4>
+      <p>บุคคลหรือองค์กรจะยอมให้ใช้พื้นที่ก็ต่อเมื่อมั่นใจว่าสภาพแวดล้อมจะไม่เสียหาย ผู้จัดต้องวางแผนจัดการขยะ เส้นทาง และผลกระทบต่อระบบนิเวศ</p>
+    </div>
+  </div>
+  <div class="principle">
+    <div class="principle-num">๒.๓</div>
+    <div class="principle-body">
+      <h4>สิทธิ์ผ่านทางไม่ใช่อภิสิทธิ์</h4>
+      <p>ผู้ร่วมกิจกรรมที่ได้รับสิทธิ์ผ่านทาง ไม่ได้มีสิทธิ์เหนือกว่าผู้ใช้พื้นที่ตามกฎหมายคนอื่น ต้องเคารพสิทธิ์ผู้ใช้ทางร่วมตลอดเวลา</p>
+    </div>
+  </div>
+  <div class="info-box green">
+    <span class="icon">🌿</span>
+    <p><strong>หลักการสำคัญ:</strong> "Leave No Trace" — นักวิ่งและผู้จัดควรดูแลให้เส้นทางกลับสู่สภาพเดิมหรือดีกว่าเดิมหลังจากกิจกรรมเสร็จสิ้น</p>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="section" id="s3">
+  <div class="section-header">
+    <div class="section-num">๓</div>
+    <h2>ลักษณะของกิจกรรม</h2>
+  </div>
+  <p style="margin-bottom:1rem;font-size:0.9rem;color:var(--text-light)">ปัจจัยที่ผู้จัดกิจกรรมต้องพิจารณาเป็นประการแรก ก่อนเริ่มดำเนินการจัดกิจกรรม:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ปัจจัย</th><th>รายละเอียด</th><th>ข้อควรระวัง</th></tr></thead>
+      <tbody>
+        <tr><td>๓.๑ ระยะทาง</td><td>กำหนดระยะทางที่เหมาะสมกับสถานที่และกลุ่มผู้เข้าร่วม</td><td>ระยะ ≥8 กม. ต้องมีแผนความปลอดภัย</td></tr>
+        <tr><td>๓.๒ เส้นทาง</td><td>ประเมินเส้นทางที่มีความเป็นไปได้และปลอดภัย</td><td>สำรวจเส้นทางทุกฤดูกาล</td></tr>
+        <tr><td>๓.๓ ระดับผจญภัย</td><td>ระยะ ≥8 กม. ถือว่ามีการผจญภัย (Adventure)</td><td>แผนความปลอดภัยต้องครอบคลุม</td></tr>
+        <tr><td>๓.๔ การนำทาง</td><td>พิจารณาว่าใช้แผนที่ / GPS นาฬิกา / ป้ายบอกทาง</td><td>ระยะไกล แนะนำให้ใช้ GPS ควบคู่</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sub-header">ลักษณะเฉพาะของ Trail Running</div>
+  <div class="grid-2">
+    <div class="info-box blue"><span class="icon">⛰️</span><p>วิ่งระยะไกลในภูมิประเทศสูงต่ำ มีความสูงสะสม (Elevation Gain) มาก</p></div>
+    <div class="info-box green"><span class="icon">🌲</span><p>สภาพแวดล้อมตามธรรมชาติ มีการปรุงแต่งน้อย ผ่านป่า เขา ลำธาร</p></div>
+    <div class="info-box orange"><span class="icon">🌙</span><p>อาจมีการวิ่งในช่วงกลางคืน ต้องเตรียมไฟฉายและอุปกรณ์สะท้อนแสง</p></div>
+    <div class="info-box red"><span class="icon">🌦️</span><p>สภาพอากาศเปลี่ยนแปลงสูง จากร้อนไปหนาว จากแดดไปฝน ในระหว่างแข่ง</p></div>
+  </div>
+</section>
+
+<!-- SECTION 4 -->
+<section class="section" id="s4">
+  <div class="section-header">
+    <div class="section-num">๔</div>
+    <h2>ความปลอดภัยและการประเมินความเสี่ยง</h2>
+  </div>
+  <div class="info-box red">
+    <span class="icon">🚨</span>
+    <p><strong>หลักการสำคัญ:</strong> ผู้จัดกิจกรรมต้องมีความรับผิดชอบพื้นฐานที่จะจัดให้มีแผนความปลอดภัยที่ครอบคลุม ก่อนเริ่มการดำเนินการจัดกิจกรรมทุกครั้ง</p>
+  </div>
+  <div class="sub-header">การประเมินความเสี่ยงตามระยะทาง</div>
+  <div class="card">
+    <div class="risk-item"><div class="risk-label"><span>ระยะสั้น (&lt;8 กม.)</span><span style="color:var(--success)">ความเสี่ยงต่ำ</span></div><div class="risk-bar"><div class="risk-fill" style="width:25%;background:var(--success)"></div></div></div>
+    <div class="risk-item"><div class="risk-label"><span>ระยะกลางสั้น (8–16 กม.)</span><span style="color:#8bc34a">ความเสี่ยงปานกลาง-ต่ำ</span></div><div class="risk-bar"><div class="risk-fill" style="width:45%;background:#8bc34a"></div></div></div>
+    <div class="risk-item"><div class="risk-label"><span>ระยะกลาง (16–32 กม.)</span><span style="color:var(--warning)">ความเสี่ยงปานกลาง</span></div><div class="risk-bar"><div class="risk-fill" style="width:65%;background:var(--warning)"></div></div></div>
+    <div class="risk-item"><div class="risk-label"><span>ระยะไกล (&gt;32 กม.)</span><span style="color:var(--danger)">ความเสี่ยงสูง</span></div><div class="risk-bar"><div class="risk-fill" style="width:90%;background:var(--danger)"></div></div></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ปัจจัยเสี่ยง</th><th>ผลกระทบ</th><th>มาตรการป้องกัน</th></tr></thead>
+      <tbody>
+        <tr><td>เส้นทางเลียบเหว/ไหล่เขา</td><td>หกล้ม ตกเหว บาดเจ็บสาหัส</td><td>มาร์แชลประจำจุด ป้ายเตือน เชือกกั้น</td></tr>
+        <tr><td>พื้นกรวด/พื้นลื่น</td><td>ข้อเท้าแพลง กระดูกหัก</td><td>แจ้งผู้เข้าร่วมล่วงหน้า รองเท้าเหมาะสม</td></tr>
+        <tr><td>น้ำขึ้น-น้ำลง</td><td>จมน้ำ ถูกกระแสน้ำพัดพา</td><td>ติดตามน้ำขึ้น-ลง กำหนดเวลาผ่าน</td></tr>
+        <tr><td>สภาพอากาศแปรปรวน</td><td>ภาวะ Hypothermia/Hyperthermia</td><td>ติดตามพยากรณ์อากาศ มีแผนยกเลิก</td></tr>
+        <tr><td>นักวิ่งหลงทาง</td><td>ค้นหาช้า เป็นอันตราย</td><td>ระบบ Check Point ชิพไทม์มิ่ง</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- SECTION 5 -->
+<section class="section" id="s5">
+  <div class="section-header">
+    <div class="section-num">๕</div>
+    <h2>การเตรียมการก่อนการแข่งขัน</h2>
+  </div>
+
+  <div class="sub-header" id="s5-1">๕.๑ การขออนุญาตจัดการแข่งขัน</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">ก่อนดำเนินการเตรียมจัดกิจกรรม ผู้จัดต้องทำเอกสารขออนุญาตจากทุกหน่วยงานที่เกี่ยวข้อง:</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>ส่วนราชการในพื้นที่</h4><p>อบต. เทศบาล อำเภอ จังหวัด ขออนุญาตใช้พื้นที่สาธารณะ ถนน และพื้นที่ชุมชน</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>หน่วยงานความมั่นคง/ทรัพยากร</h4><p>กรมป่าไม้ กรมอุทยานแห่งชาติ หรือหน่วยงานเฉพาะพื้นที่ หากเส้นทางผ่านเขตป่าอนุรักษ์</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>หน่วยงานจราจร/ตำรวจ</h4><p>ขออนุญาตในกรณีที่เส้นทางตัดผ่านถนนสาธารณะ หรือต้องการควบคุมการจราจร</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>เจ้าของพื้นที่ส่วนบุคคล</h4><p>ติดต่อขอรับอนุญาตเป็นลายลักษณ์อักษรจากเจ้าของที่ดินส่วนบุคคลทุกราย</p></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-content"><h4>แจ้งโรงพยาบาล/สถานพยาบาล</h4><p>แจ้งให้โรงพยาบาลในพื้นที่และพื้นที่ใกล้เคียงทราบล่วงหน้าเพื่อเตรียมรองรับเหตุฉุกเฉิน</p></div></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s5-2">๕.๒ การประกันภัย</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">การประกันภัยเป็นสิ่งจำเป็นอย่างยิ่งที่ต้องครอบคลุมทุกฝ่าย:</p>
+    <div class="grid-3">
+      <div class="info-box green"><span class="icon">🏃</span><p><strong>ผู้เข้าร่วมกิจกรรม</strong><br>ประกันอุบัติเหตุหรือประกันสุขภาพครอบคลุมทุกคนที่ลงทะเบียน</p></div>
+      <div class="info-box blue"><span class="icon">👷</span><p><strong>ผู้จัดกิจกรรม</strong><br>ประกันความรับผิดต่อบุคคลภายนอก (Public Liability Insurance)</p></div>
+      <div class="info-box orange"><span class="icon">🦺</span><p><strong>เจ้าหน้าที่/อาสาสมัคร</strong><br>ประกันอุบัติเหตุสำหรับเจ้าหน้าที่ที่ปฏิบัติงานในกิจกรรม</p></div>
+    </div>
+    <div class="info-box yellow"><span class="icon">🌍</span><p><strong>กรณีมีนักวิ่งต่างชาติ:</strong> ต้องพิจารณาความคุ้มครองการประกันสุขภาพที่รองรับผู้เอาประกันต่างชาติด้วย</p></div>
+  </div>
+
+  <div class="sub-header">๕.๓ ข้อพึงปฏิบัติเมื่อผ่านชุมชน</div>
+  <div class="card">
+    <ul style="list-style:none;font-size:0.88rem;">
+      <li style="padding:0.4rem 0;border-bottom:1px solid #f0f0f0">• ศึกษาข้อพึงปฏิบัติร่วมกันของชุมชนล่วงหน้า เช่น สถานที่ศักดิ์สิทธิ์ พื้นที่หวงห้าม วัฒนธรรมประเพณี</li>
+      <li style="padding:0.4rem 0;border-bottom:1px solid #f0f0f0">• แจ้งชุมชนล่วงหน้าอย่างน้อย 2–4 สัปดาห์ก่อนการแข่งขัน</li>
+      <li style="padding:0.4rem 0;border-bottom:1px solid #f0f0f0">• หลีกเลี่ยงเส้นทางที่ผ่านสวนไร่นาของประชาชนโดยไม่แจ้งล่วงหน้า</li>
+      <li style="padding:0.4rem 0">• จัดมาร์แชลประจำจุดที่อาจเกิดการเผชิญหน้ากับประชาชนในพื้นที่</li>
+    </ul>
+  </div>
+
+  <div class="sub-header" id="s5-5">๕.๕ การสำรวจเส้นทาง</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">เนื่องจากพื้นที่ป่าเขามีความแตกต่างกันมากในแต่ละฤดูกาล จึงต้องสำรวจเส้นทางก่อนการแข่งขันเป็นระยะๆ:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ช่วงเวลา</th><th>กิจกรรมการสำรวจ</th><th>หมายเหตุ</th></tr></thead>
+        <tbody>
+          <tr><td>6–12 เดือนก่อนแข่ง</td><td>สำรวจเส้นทางหลักครั้งแรก บันทึก GPS ถ่ายภาพ</td><td>ดำเนินการในฤดูกาลเดียวกับที่จะแข่งขัน</td></tr>
+          <tr><td>1–3 เดือนก่อนแข่ง</td><td>สำรวจซ้ำตรวจสอบการเปลี่ยนแปลง ป้าย สะพาน</td><td>บันทึกจุดที่ต้องซ่อมแซมหรือปรับปรุง</td></tr>
+          <tr><td>1–2 สัปดาห์ก่อนแข่ง</td><td>ตรวจสอบสภาพเส้นทางล่าสุด ติดตั้งป้ายชั่วคราว</td><td>วิ่งทดสอบกับนักวิ่งหน้าใหม่</td></tr>
+          <tr><td>วันก่อนแข่ง</td><td>ตรวจสอบป้ายสัญลักษณ์ทุกจุดบนเส้นทาง</td><td>แน่ใจว่าไม่มีป้ายถูกขโมยหรือหมุน</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub-header">๕.๗ การใช้เส้นทางวิ่งในพื้นที่ต่างๆ</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ประเภทพื้นที่</th><th>ข้อกำหนด</th><th>แนวทางปฏิบัติ</th></tr></thead>
+      <tbody>
+        <tr><td>ทางสาธารณะ</td><td>นักวิ่งใช้ได้ในฐานะคนเดินเท้า แต่ไม่มีสิทธิ์เหนือผู้ใช้ทางอื่น</td><td>ติดป้ายเตือนล่วงหน้า จัดมาร์แชล</td></tr>
+        <tr><td>พื้นที่ชุมชน/ส่วนบุคคล</td><td>ต้องขออนุญาตเจ้าของก่อน แจ้งล่วงหน้า</td><td>หลีกเลี่ยงส่งผู้เข้าร่วมหลายร้อยคนโดยไม่แจ้ง</td></tr>
+        <tr><td>เส้นทางมีประตูรั้ว</td><td>เจ้าของคาดหวังว่าประตูจะถูกปิดเสมอ</td><td>เลือกเส้นทางไม่ผ่านประตู หรือจัดมาร์แชลปิดประตู</td></tr>
+        <tr><td>พื้นที่อุทยาน/ป่าอนุรักษ์</td><td>ต้องได้รับอนุญาตจากกรมอุทยานฯ</td><td>แนบหนังสืออนุญาตในเอกสารกิจกรรม</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-header" id="s5-10">๕.๑๐ การประชาสัมพันธ์ก่อนการรับสมัคร</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">ข้อมูลที่ต้องแจ้งผู้เข้าร่วมอย่างชัดเจนก่อนเปิดรับสมัคร:</p>
+    <div class="grid-2">
+      <div>
+        <div class="check-item"><div class="check-num">๕.๑๐.๑</div><div class="check-text"><strong>อุปกรณ์ที่จำเป็น</strong> — ไฟส่องสว่าง, อาหาร, น้ำ, โทรศัพท์</div></div>
+        <div class="check-item"><div class="check-num">๕.๑๐.๒</div><div class="check-text"><strong>ชนิดของภูมิประเทศ</strong> — ป่า เขา หิน ลำธาร</div></div>
+        <div class="check-item"><div class="check-num">๕.๑๐.๓</div><div class="check-text"><strong>ความสูงสะสม</strong> (Total Elevation Gain)</div></div>
+      </div>
+      <div>
+        <div class="check-item"><div class="check-num">๕.๑๐.๔</div><div class="check-text"><strong>ระดับความเสี่ยง</strong> — มีเส้นเลียบเหว, ผ่านไหล่เขา, น้ำขึ้น-ลง</div></div>
+        <div class="check-item"><div class="check-num">๕.๑๐.๕</div><div class="check-text"><strong>เวลาตัดตัว (Cut-off Time)</strong> ทุกจุด</div></div>
+        <div class="check-item"><div class="check-num">ๅ.๑๐.๖</div><div class="check-text"><strong>อายุต่ำสุด</strong> ที่อนุญาตสำหรับแต่ละระยะทาง</div></div>
+      </div>
+    </div>
+    <div class="info-box yellow"><span class="icon">📏</span><p><strong>หมายเหตุ:</strong> ระยะทางของ Trail Running มักถือว่าเป็น "โดยประมาณ" เสมอ เว้นแต่จะมีผู้วัดระยะอย่างเป็นทางการรับรอง</p></div>
+  </div>
+
+  <div class="sub-header">๕.๑๑ เจ้าหน้าที่และอาสาสมัคร</div>
+  <div class="card">
+    <div class="role-grid">
+      <div class="role-card">
+        <h4>🎯 ผู้อำนวยการแข่งขัน (Race Director)</h4>
+        <ul><li>ตัดสินใจสูงสุดในทุกเรื่อง</li><li>ประกาศเปลี่ยนแปลง/ยกเลิกกิจกรรม</li><li>ประสานงานกับทุกฝ่าย</li></ul>
+      </div>
+      <div class="role-card">
+        <h4>🏥 ผู้อำนวยการทางการแพทย์</h4>
+        <ul><li>ควบคุมแผนการแพทย์ฉุกเฉิน</li><li>บริหารสถานีพยาบาล</li><li>ตัดสินใจด้านการรักษา</li></ul>
+      </div>
+      <div class="role-card">
+        <h4>🗺️ ผู้จัดการเส้นทางและความปลอดภัย</h4>
+        <ul><li>เตรียมเส้นทาง ป้ายสัญลักษณ์</li><li>กำหนดเจ้าหน้าที่ดูแลความปลอดภัย</li><li>บริหารจุดเสี่ยง</li></ul>
+      </div>
+      <div class="role-card">
+        <h4>🚨 ผู้จัดการช่วยเหลือฉุกเฉิน</h4>
+        <ul><li>รับผิดชอบแผนการเข้าช่วยเหลือ</li><li>พาผู้ป่วยส่งสถานพยาบาล</li><li>ประสานทีมกู้ภัย</li></ul>
+      </div>
+      <div class="role-card">
+        <h4>📋 มาร์แชล (Marshal)</h4>
+        <ul><li>ประจำจุด Check Point ทุกจุด</li><li>บอกทางและช่วยเหลือนักวิ่ง</li><li>อายุ ≥16 ปี (จุดทั่วไป), ≥18 ปี (จุดเสี่ยง)</li></ul>
+      </div>
+      <div class="role-card">
+        <h4>🏃 ทีมปิดท้าย (Sweeper)</h4>
+        <ul><li>ติดตามผู้เข้าร่วมคนสุดท้าย</li><li>อย่างน้อย 2 คนต่อทีม</li><li>แจ้งเมื่อเส้นทางปลอดภัย</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s5-12">ๅ.๑๒ แผนความปลอดภัย</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">กิจกรรมวิ่งตามภูมิประเทศส่วนใหญ่มีความเสี่ยง โดยอุบัติเหตุที่พบบ่อย ได้แก่:</p>
+    <div class="grid-3">
+      <div class="info-box orange"><span class="icon">🦶</span><p>ข้อเท้าแพลง กระดูกหัก จากพื้นขรุขระ</p></div>
+      <div class="info-box red"><span class="icon">🌡️</span><p>ภาวะ Hypothermia หรือ Heatstroke</p></div>
+      <div class="info-box blue"><span class="icon">🗺️</span><p>หลงทาง ออกนอกเส้นทางที่กำหนด</p></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s5-14">๕.๑๔ แผนที่และสัญลักษณ์ทางบนเส้นทาง</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">แนะนำให้ใช้แผนที่ที่มีอัตราส่วน <strong>ไม่น้อยกว่า 1:50,000</strong> และต้องแสดงข้อมูลสำคัญครบถ้วน:</p>
+    <div class="grid-2">
+      <ul style="list-style:none;font-size:0.87rem;">
+        <li style="padding:0.3rem 0">✅ จุดปล่อยตัวและเส้นชัย</li>
+        <li style="padding:0.3rem 0">✅ สถานีบริการทุกจุด (กม. ที่)</li>
+        <li style="padding:0.3rem 0">✅ ความสูงสะสม (Elevation Profile)</li>
+        <li style="padding:0.3rem 0">✅ จุด Check Point และ Cut-off Time</li>
+      </ul>
+      <ul style="list-style:none;font-size:0.87rem;">
+        <li style="padding:0.3rem 0">✅ จุดเสี่ยงและจุดอันตราย</li>
+        <li style="padding:0.3rem 0">✅ เส้นทางฉุกเฉิน (Emergency Route)</li>
+        <li style="padding:0.3rem 0">✅ ตำแหน่งสถานีทางการแพทย์</li>
+        <li style="padding:0.3rem 0">✅ เบอร์โทรศัพท์ฉุกเฉิน</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-header">ๅ.๑ๅ-๑๗ เส้นทางตามระยะทาง</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ประเภทระยะ</th><th>ระยะทาง</th><th>ลักษณะการนำทาง</th><th>ข้อกำหนดเพิ่มเติม</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ระยะสั้น</strong></td><td>&lt;16 กม.</td><td>ผู้นำจะวิ่งเร็วเกินกว่าจะเห็นมาร์แชล — ต้องมีป้ายชัดเจนมาก</td><td>ป้ายทุก 200–500 เมตร ในจุดที่เสี่ยงสับสน</td></tr>
+        <tr><td><strong>ระยะกลาง</strong></td><td>16–32 กม.</td><td>เครื่องหมายบอกทางทุกจุดยาก + มาร์แชลประจำจุดสำคัญ</td><td>สถานีบริการห่างไม่เกิน 10 กม.</td></tr>
+        <tr><td><strong>ระยะไกล</strong></td><td>&gt;32 กม.</td><td>นักวิ่งดูเครื่องหมายบอกทางเป็นหลัก + GPS ประกอบ</td><td>อาหาร/เครื่องดื่มเกลือแร่ทุกสถานี</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sub-header" id="s5-18">ๅ.๑๘ การทำเครื่องหมายบอกทาง</div>
+  <div class="card">
+    <div class="card-title">ประเภทเครื่องหมายบอกทาง</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ประเภท</th><th>วิธีใช้</th><th>ข้อดี</th><th>ข้อเสีย</th></tr></thead>
+        <tbody>
+          <tr><td>เทปริบบิ้น ขาว-แดง</td><td>ผูกกับต้นไม้ ปล่อยชายสะบัด</td><td>สังเกตเห็นง่าย ราคาถูก</td><td>ถูกลมพัด อาจสับสนกับเทปอื่น</td></tr>
+          <tr><td>ป้ายลูกศร (พีพีบอร์ด)</td><td>ติดตั้งบนเสาหรือต้นไม้</td><td>ชัดเจน อ่านง่าย</td><td>อาจถูกหมุน ต้องทำเครื่องหมายขอบ</td></tr>
+          <tr><td>เทปสะท้อนแสง</td><td>ติดบนเทปหรือป้าย</td><td>เห็นได้ในกลางคืน</td><td>ต้องใช้ไฟส่อง</td></tr>
+          <tr><td>เทปกั้น (Barrier Tape)</td><td>กั้นทางที่ไม่ควรเข้า</td><td>ป้องกันนักวิ่งออกนอกเส้นทาง</td><td>ต้องเก็บหลังแข่ง</td></tr>
+          <tr><td>ลูกศรปูนขาวบนพื้น</td><td>เขียนบนพื้นดิน/ถนน</td><td>ไม่ดึงดูดให้คนทำลาย</td><td>นักวิ่งเร็วอาจมองข้าม</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box red"><span class="icon">⚠️</span><p><strong>หลักคิดสำคัญ:</strong> ถ้าผู้จัดคิดว่า "จุดนี้ใครก็ดูออก" — นั่นแปลว่าจุดนั้นต้องการป้ายเพิ่ม เพราะนักวิ่งที่เหนื่อยล้าจะสูญเสียความสามารถในการสังเกตรายละเอียด</p></div>
+  </div>
+</section>
+
+
+<!-- SECTION 6 -->
+<section class="section" id="s6">
+  <div class="section-header">
+    <div class="section-num">๖</div>
+    <h2>การบริหารจัดการในวันแข่งขัน</h2>
+  </div>
+
+  <div class="sub-header">๖.๑–๖.๒ แผนที่และการเปลี่ยนแปลงเส้นทาง</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">๖.๑ การจัดแสดงแผนที่</div>
+      <ul style="list-style:none;font-size:0.87rem;">
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• ติดแผนที่ขนาดใหญ่ที่จุดลงทะเบียน</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• แสดงการพยากรณ์อากาศที่สำคัญ</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• มีแผนที่พกพาแจกนักวิ่ง</li>
+        <li style="padding:0.3rem 0">• แสดง GPS Track ให้ดาวน์โหลดล่วงหน้า</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">๖.๒ การเปลี่ยนแปลงเส้นทาง</div>
+      <ul style="list-style:none;font-size:0.87rem;">
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• ไม่ควรพึ่งเพียงการประกาศที่จุดปล่อยตัว</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• จัดทำเอกสารมอบให้นักวิ่งทุกคนด้วยมือ</li>
+        <li style="padding:0.3rem 0;border-bottom:1px solid #f5f5f5">• แจ้งผ่าน Line/Application กิจกรรม</li>
+        <li style="padding:0.3rem 0">• อัปเดต GPS Track ใหม่หากเส้นทางเปลี่ยน</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s6-3">๖.๓ การสื่อสาร</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">มาร์แชลทุกคนต้องติดต่อได้ตลอดเวลา และต้องมีระบบสื่อสารที่เชื่อถือได้:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ช่องทางสื่อสาร</th><th>การใช้งาน</th><th>ข้อระวัง</th></tr></thead>
+        <tbody>
+          <tr><td>วิทยุสื่อสาร</td><td>การสื่อสารหลักระหว่างมาร์แชล-ศูนย์อำนวยการ</td><td>ใช้คลื่น 2 ช่อง: ช่องแพทย์, ช่องจัดแข่งขัน</td></tr>
+          <tr><td>โทรศัพท์มือถือ</td><td>สำรองสำหรับสถานีที่มีสัญญาณ</td><td>ผู้ให้บริการไม่รับรองสัญญาณต่อเนื่อง ใช้แบตสำรอง</td></tr>
+          <tr><td>Social Media (Line)</td><td>แจ้งข่าวสารให้นักวิ่งทั่วไป</td><td>ไม่เหมาะสำหรับการสื่อสารฉุกเฉิน</td></tr>
+          <tr><td>ธงสัญญาณสี</td><td>พื้นที่ที่ไม่มีสัญญาณใดๆ</td><td>ต้องฝึกอบรมเจ้าหน้าที่ล่วงหน้า</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info-box blue"><span class="icon">📻</span><p><strong>แนวปฏิบัติ:</strong> กำหนดให้การสื่อสารทางวิทยุทุกสายต้องผ่านศูนย์ประสานงาน เพื่อให้ทุกฝ่ายทราบข้อมูลพร้อมกันอย่างเป็นระบบ และต้องบันทึกสายสำคัญไว้อ้างอิง</p></div>
+  </div>
+
+  <div class="sub-header">๖.๔ จุดเส้นทางตัดกับถนน</div>
+  <div class="card">
+    <div class="info-box red"><span class="icon">🚗</span><p><strong>จุดเสี่ยงสูงสุด:</strong> จุดตัดกับถนนคือจุดที่มีความเป็นไปได้สูงสุดที่จะเกิดอันตราย ต้องมีการวางแผนอย่างรัดกุม</p></div>
+    <div class="grid-2">
+      <div>
+        <h4 style="font-size:0.88rem;font-weight:700;color:var(--primary-dark);margin-bottom:0.5rem">หน้าที่ 2 ส่วนที่แยกชัดเจน:</h4>
+        <div class="step"><div class="step-num">A</div><div class="step-content"><h4>ควบคุมการจราจร</h4><p>มีเพียงตำรวจเท่านั้นที่มีสิทธิ์หยุดรถ</p></div></div>
+        <div class="step" style="margin-top:0.5rem"><div class="step-num">B</div><div class="step-content"><h4>บอกทางนักวิ่ง</h4><p>มาร์แชลช่วยนักวิ่งข้ามถนนอย่างปลอดภัย</p></div></div>
+      </div>
+      <div>
+        <h4 style="font-size:0.88rem;font-weight:700;color:var(--primary-dark);margin-bottom:0.5rem">ข้อกำหนดมาร์แชลจุดตัดถนน:</h4>
+        <ul style="list-style:none;font-size:0.85rem;">
+          <li style="padding:0.3rem 0">• มาร์แชล 1–2 คน ดูแลการจราจร</li>
+          <li style="padding:0.3rem 0">• มาร์แชลอีกส่วนคอยแนะนำนักวิ่ง</li>
+          <li style="padding:0.3rem 0">• อายุ ≥16 ปี (จุดทั่วไป)</li>
+          <li style="padding:0.3rem 0">• อายุ ≥18 ปี (ทางแยก/จุดเสี่ยง)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s6-5">๖.๕ สถานีบริการ (Aid Station)</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ข้อกำหนด</th><th>ระยะ ≤32 กม.</th><th>ระยะ &gt;32 กม.</th></tr></thead>
+      <tbody>
+        <tr><td>ระยะห่างระหว่างสถานี</td><td>ไม่เกิน 10 กม.</td><td>ยืดหยุ่นตามภูมิประเทศ</td></tr>
+        <tr><td>อาหาร</td><td>ไม่จำเป็น (อาจมีแค่เครื่องดื่ม)</td><td>ต้องมี: ผลไม้ เครื่องดื่มเกลือแร่ อาหาร</td></tr>
+        <tr><td>ห้องสุขา</td><td>ต้องมีที่จุดปล่อยตัว เส้นชัย และทุกสถานี</td><td>ต้องมี ทุกสถานีบริการ</td></tr>
+        <tr><td>เปิดให้บริการถึง</td><td>จนนักวิ่งทุกคนผ่าน</td><td>จนทีมปิดท้ายผ่าน</td></tr>
+        <tr><td>ไฟส่องสว่าง</td><td>ไม่จำเป็น (ถ้าไม่มีช่วงกลางคืน)</td><td>ต้องมี ห้ามส่องเข้าตานักวิ่ง</td></tr>
+        <tr><td>หน้าที่เพิ่มเติม</td><td>เป็นจุด Check Point</td><td>เป็น Check Point + จุดตัดตัว</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box green"><span class="icon">📋</span><p><strong>เจ้าหน้าที่สถานีต้องรู้:</strong> ระยะทางที่เหลือถึงเส้นชัย เวลา Cut-off ของสถานีต่อไป และวิธีการติดต่อศูนย์อำนวยการ</p></div>
+
+  <div class="sub-header" id="s6-8">๖.๘ ผู้เข้าร่วมที่หลงทางหรือหายไป</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">ระบบการติดตามนักวิ่งที่มีประสิทธิภาพ:</p>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="week-badge">ก่อนปล่อยตัว</div><h4>ตรวจชื่อลงทะเบียนทุกคน</h4><p>แจ้งนักวิ่งล่วงหน้าว่าจะมีการตรวจชื่อ — ใครไม่มาลงทะเบียนจะถูกขีดฆ่าออกจากรายชื่อ</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="week-badge">หลังปิดลงทะเบียน</div><h4>ส่งรายชื่อไปทุก Check Point</h4><p>เจ้าหน้าที่ทุก Check Point ต้องมีรายชื่อครบถ้วน และทำเครื่องหมายเมื่อนักวิ่งผ่าน</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="week-badge">ระหว่างแข่ง</div><h4>ติดตาม Check Point ต่อ Check Point</h4><p>ระบบ Chip Timing จะส่งข้อมูลอัตโนมัติ ทำให้ตรวจสอบได้ง่าย</p></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="week-badge">ทีมปิดท้ายถึง</div><h4>ตรวจสอบหมายเลขที่ยังไม่ถูกทำเครื่องหมาย</h4><p>หมายเลขไหนไม่ถูกทำเครื่องหมาย = นักวิ่งคนนั้นหายหรือออกจากการแข่งขันโดยไม่แจ้ง → เริ่มค้นหาทันที</p></div>
+    </div>
+  </div>
+
+  <div class="sub-header">๖.๑๐ ทีมปิดท้าย (Sweeper Team)</div>
+  <div class="card">
+    <div class="grid-3">
+      <div class="info-box green"><span class="icon">🚵</span><p><strong>ใช้จักรยานเสือภูเขา 2 คน</strong> ถ้าเส้นทางรองรับได้ ปั่นตามหลังผู้เข้าร่วมคนสุดท้าย</p></div>
+      <div class="info-box blue"><span class="icon">🏃</span><p><strong>มาร์แชลส่งต่อ</strong> แต่ละคนตามหลังนักวิ่งสุดท้ายจนถึงมาร์แชลคนถัดไป</p></div>
+      <div class="info-box orange"><span class="icon">👥</span><p><strong>ทีมนักวิ่งปิดท้าย</strong> อย่างน้อย 2 คน วิ่งตามตั้งแต่ต้นจนถึงเส้นชัย</p></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s6-11">๖.๑๑ อุปกรณ์บังคับ (Mandatory Gear)</div>
+  <div class="equip-grid">
+    <div class="equip-item"><span class="equip-icon">🍫</span>อาหารฉุกเฉิน (≥12 ชม.)</div>
+    <div class="equip-item"><span class="equip-icon">🩹</span>พลาสเตอร์กันน้ำ + ปฐมพยาบาล</div>
+    <div class="equip-item"><span class="equip-icon">🧥</span>เสื้อแจ็กเก็ต+กางเกงกันน้ำ</div>
+    <div class="equip-item"><span class="equip-icon">🌂</span>เสื้อกันฝน</div>
+    <div class="equip-item"><span class="equip-icon">🔦</span>ไฟฉาย + แบตสำรอง</div>
+    <div class="equip-item"><span class="equip-icon">🎵</span>นกหวีด (สัญญาณขอความช่วยเหลือ)</div>
+    <div class="equip-item"><span class="equip-icon">💧</span>เครื่องดื่มปริมาณเพียงพอ</div>
+    <div class="equip-item"><span class="equip-icon">📱</span>โทรศัพท์มือถือ (ชาร์จเต็ม)</div>
+    <div class="equip-item"><span class="equip-icon">🗺️</span>แผนที่การแข่งขัน</div>
+  </div>
+
+  <div class="sub-header" id="s6-15">๖.๑๕ เวลาตัดตัว (Cut-off Time)</div>
+  <div class="card">
+    <p style="margin-bottom:0.8rem">การกำหนดและบังคับใช้ Cut-off เป็นสิ่งสำคัญเพื่อความปลอดภัย:</p>
+    <div class="info-box red"><span class="icon">⛔</span><p><strong>ห้ามอนุญาต:</strong> ผู้เข้าร่วมที่ไม่ทัน Cut-off วิ่งต่อโดยรับผิดชอบตัวเอง เพราะจะสร้างปัญหากับจุดอื่นๆ ที่ต้องเปิดนานเกินเวลา</p></div>
+    <div class="grid-2">
+      <div class="info-box blue"><span class="icon">🕐</span><p><strong>สำหรับระยะ &gt;40 กม.:</strong> ควรมีจุดกำหนดเวลาระหว่างทางหลายจุด เลือกจุดที่สามารถส่งนักวิ่งกลับเส้นชัยได้สะดวก</p></div>
+      <div class="info-box green"><span class="icon">🚌</span><p><strong>การส่งกลับ:</strong> ต้องมีรถหรือยานพาหนะพร้อมรับนักวิ่งที่ถูกตัดตัวและพาส่งเส้นชัยอย่างปลอดภัย</p></div>
+    </div>
+  </div>
+
+  <div class="sub-header">๖.๑๖ การรักษาความสะอาดและคืนพื้นที่</div>
+  <div class="card">
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>เก็บป้ายสัญลักษณ์ทั้งหมด</h4><p>เทปริบบิ้น ป้ายลูกศร เทปกั้น ต้องเก็บให้หมดภายในวันแข่ง</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>เก็บขยะบนเส้นทาง</h4><p>จัดทีมเก็บขยะตามเส้นทาง โดยเฉพาะบริเวณสถานีบริการ</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>คืนพื้นที่ให้เจ้าของ</h4><p>ถ่ายภาพเป็นหลักฐานว่าพื้นที่กลับสู่สภาพเดิม แจ้งเจ้าของพื้นที่</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7 -->
+<section class="section" id="s7">
+  <div class="section-header">
+    <div class="section-num">๗</div>
+    <h2>แนวความคิดในการดำเนินการของผู้จัดกิจกรรม</h2>
+  </div>
+  <div class="card">
+    <p style="margin-bottom:1rem">ลักษณะเด่นของ Trail Running ที่ผู้จัดต้องเข้าใจ:</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">๑</div><div class="step-content"><h4>ระยะทางไกล + ภูมิประเทศสูงต่ำ</h4><p>ร่างกายต้องใช้พลังงานมากกว่าการวิ่งถนนระยะเท่ากัน</p></div></div>
+      <div class="step"><div class="step-num">๒</div><div class="step-content"><h4>สภาพแวดล้อมตามธรรมชาติ มีการปรุงแต่งน้อย</h4><p>พื้นผิวไม่สม่ำเสมอ ต้องการทักษะและประสบการณ์เฉพาะ</p></div></div>
+      <div class="step"><div class="step-num">๓</div><div class="step-content"><h4>อาจวิ่งตอนกลางคืน</h4><p>ต้องเตรียมไฟฉาย อุปกรณ์สะท้อนแสง และทดสอบค าบรรยายเส้นทางในกลางคืนด้วย</p></div></div>
+      <div class="step"><div class="step-num">๔</div><div class="step-content"><h4>อากาศเปลี่ยนแปลงรุนแรง</h4><p>จากร้อนเป็นหนาว จากแดดเป็นฝน — ต้องเตรียมอุปกรณ์รับมือทุกสภาวะ</p></div></div>
+      <div class="step"><div class="step-num">๕</div><div class="step-content"><h4>หลายจุดเข้าถึงได้ด้วยเดินเท้าเท่านั้น</h4><p>การช่วยเหลือฉุกเฉินต้องวางแผนพิเศษสำหรับจุดที่รถเข้าไม่ถึง</p></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SECTION 8 -->
+<section class="section" id="s8">
+  <div class="section-header">
+    <div class="section-num">๘</div>
+    <h2>การจัดการความปลอดภัยของกิจกรรม</h2>
+  </div>
+
+  <div class="sub-header" id="s8-1">๘.๑ การเตรียมพร้อมสำหรับความปลอดภัย</div>
+  <div class="card">
+    <div class="card-title">๘.๑.๑ ความรับผิดชอบของฝ่ายต่างๆ</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ตำแหน่ง</th><th>หน้าที่หลัก</th></tr></thead>
+        <tbody>
+          <tr><td>ผู้อำนวยการด้านเทคนิค</td><td>อำนวยการให้ผู้เข้าแข่งขันทุกคนได้รับความปลอดภัยและเสมอภาค</td></tr>
+          <tr><td>ผู้จัดการด้านความปลอดภัยและเส้นทาง</td><td>เตรียมเส้นทาง ป้ายสัญลักษณ์ กำหนดเจ้าหน้าที่ บริหารจุดเสี่ยง</td></tr>
+          <tr><td>ผู้จัดการด้านช่วยเหลือฉุกเฉิน</td><td>รับผิดชอบแผนการเข้าช่วยเหลือเร่งด่วน พาผู้ป่วยส่งสถานพยาบาล</td></tr>
+          <tr><td>ผู้อำนวยการทางการแพทย์</td><td>ควบคุมแผนการแพทย์ทั้งหมด ตัดสินใจด้านการรักษา อาจรับผิดชอบช่วยเหลือฉุกเฉินด้วย</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">๘.๑.๒–๘.๑.๓ ข้อมูลสำคัญที่ต้องรวบรวม</div>
+    <div class="grid-2">
+      <div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">จำนวนผู้เข้าร่วมกิจกรรมทั้งหมด</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">ระยะทางและเส้นทางการแข่งขัน</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">แผนที่และพิกัด GPS ทุกจุด</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">สภาพอากาศล่าสุดและแนวโน้ม</div></div>
+      </div>
+      <div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">จุดที่รถเข้าถึงได้/ไม่ได้</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">โรงพยาบาลใกล้เคียงและเบอร์ติดต่อ</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">เส้นทางอพยพฉุกเฉิน</div></div>
+        <div class="check-item"><div class="check-num">•</div><div class="check-text">รายชื่อและเบอร์โทรทีมกู้ภัย</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s8-2">๘.๒ มาตรการสำคัญระหว่างการแข่งขัน</div>
+  <div class="card">
+    <div class="card-title">๘.๒.๑ การจัดการสภาพอากาศ</div>
+    <div class="info-box orange"><span class="icon">🌪️</span><p><strong>ติดตามพยากรณ์อากาศอย่างน้อยทุก 6 ชั่วโมง</strong> หากสภาพอากาศเปลี่ยนรุนแรง (ร้อนจัด/หนาวจัด/พายุ/ฟ้าแลบ) ต้องประเมินและตัดสินใจ</p></div>
+    <div class="grid-2">
+      <div class="info-box blue"><span class="icon">☀️</span><p><strong>อากาศดี:</strong> แนวโน้มว่าจะต้องเพิ่มบุคลากรทางการแพทย์ เพราะนักวิ่งจะผลักดันตัวเองหนักขึ้น</p></div>
+      <div class="info-box red"><span class="icon">⛈️</span><p><strong>อากาศเลวร้าย:</strong> ใช้เส้นทางฉุกเฉิน หรือประกาศยุติการแข่งขัน ไม่จำเป็นต้องปรับแผนทุกครั้ง</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">๘.๒.๒ ระบบสื่อสาร (ระหว่างแข่ง)</div>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>ทดสอบระบบก่อนแข่ง</h4><p>คำนึงว่าคุณภาพสัญญาณขึ้นกับสภาพอากาศ</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>ทดสอบซ้ำหลังปล่อยตัว</h4><p>ทดสอบระบบทันทีหลังเริ่มการแข่งขัน</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>จัดแบตสำรองทุกจุด</h4><p>วิทยุและโทรศัพท์ทุกเครื่องต้องมีแบตสำรอง</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>บันทึกสายสำคัญ</h4><p>บันทึกการสื่อสารสำคัญทุกสาย เพื่อการสอบทวนภายหลัง</p></div></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s8-3">๘.๓ มาตรการเชิงป้องกัน</div>
+  <div class="card">
+    <div class="card-title">๘.๓.๑ อุปกรณ์ที่กำหนดให้มี</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ประเภท</th><th>รายการ</th><th>วัตถุประสงค์</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3">ระบุตัวตน</td><td>ป้ายหมายเลขแข่งขัน (มีเบอร์ฉุกเฉิน)</td><td>ระบุตัวตน ติดต่อกรณีฉุกเฉิน</td></tr>
+          <tr><td>เอกสารแสดงตัวตน (กรณีวิ่งระหว่างประเทศ)</td><td>ยืนยันตัวตน สัญชาติ</td></tr>
+          <tr><td>Chip Timing (ถ้าใช้)</td><td>ติดตามตำแหน่งและเวลา</td></tr>
+          <tr><td rowspan="2">ป้องกัน</td><td>ไฟส่องสว่าง เสื้อกันลม-กันฝน</td><td>ป้องกันปัญหาจากสภาพแวดล้อม</td></tr>
+          <tr><td>เครื่องดื่มและอาหาร</td><td>ป้องกัน Dehydration/Hypoglycemia</td></tr>
+          <tr><td rowspan="2">กรณีอุบัติเหตุ</td><td>นกหวีด โทรศัพท์มือถือ</td><td>แจ้งตำแหน่ง ขอความช่วยเหลือ</td></tr>
+          <tr><td>ผ้าห่มฉุกเฉิน เสื้อผ้าสำรอง</td><td>รอการช่วยเหลือในที่อากาศหนาว</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">๘.๓.๔ การติดตามผู้เข้าร่วมและการออกจากการแข่งขัน</div>
+    <div class="grid-2">
+      <div class="info-box green"><span class="icon">📍</span><p><strong>Check Point:</strong> Chip Timing ระบบอัตโนมัติทำได้ง่ายกว่าการตรวจเช็คด้วยบุคคล โดยเฉพาะกิจกรรมขนาดใหญ่</p></div>
+      <div class="info-box blue"><span class="icon">🚪</span><p><strong>ออกจากการแข่งขัน:</strong> นักวิ่งต้องแจ้งเจ้าหน้าที่ทันที ฝ่ายจัดต้องมีระบบรับข้อมูลและส่งนักวิ่งกลับปลอดภัย</p></div>
+    </div>
+    <div class="info-box orange"><span class="icon">⏰</span><p><strong>สำหรับระยะ &gt;40 กม.:</strong> ควรมีจุดกำหนดเวลาระหว่างทาง เลือกจุดที่สามารถส่งนักวิ่งกลับเส้นชัยได้ และต้องแจ้งนักวิ่งให้ทราบถึงผลของการไม่ผ่าน Cut-off</p></div>
+  </div>
+</section>
+
+<!-- SECTION 9 -->
+<section class="section" id="s9">
+  <div class="section-header">
+    <div class="section-num">๙</div>
+    <h2>แผนการแพทย์และการช่วยเหลือฉุกเฉิน</h2>
+  </div>
+  <div class="info-box red"><span class="icon">🏥</span><p><strong>สำคัญที่สุด:</strong> ต้องใส่ใจรายละเอียดของแผนการแพทย์และการช่วยเหลือฉุกเฉินตั้งแต่เนิ่นๆ โดยพิจารณาองค์ประกอบสำคัญทุกด้าน</p></div>
+
+  <div class="sub-header">๙.๑ วัตถุประสงค์ขั้นพื้นฐาน</div>
+  <div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ข้อ</th><th>วัตถุประสงค์</th></tr></thead>
+        <tbody>
+          <tr><td>๙.๑.๑</td><td>ทีมบุคลากรทางการแพทย์ต้องร่วมมือกัน วางแผนบริการทางการแพทย์และการช่วยเหลือฉุกเฉินที่เหมาะสม</td></tr>
+          <tr><td>๙.๑.๒</td><td>บุคลากรต้องมีความรู้เฉพาะด้านต่อประเด็นทางการรักษาที่จำเพาะกับ Trail Running</td></tr>
+          <tr><td>๙.๑.๓</td><td>ให้ความร่วมมือกับนโยบายสุขภาพ (ต่อต้านสารต้องห้าม) ตามแนวทาง ITRA หากมีนโยบาย</td></tr>
+          <tr><td>๙.๑.๔</td><td>เตรียมรองรับทุกกลุ่ม: นักวิ่ง, ทีมจัด, ผู้ชม, ประชาชนบริเวณงาน</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sub-header">๙.๒ ขั้นตอนการปฏิบัติงาน</div>
+  <div class="card">
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div class="step-content"><h4>สถานการณ์อันตรายถึงชีวิต — ลำดับแรก</h4><p>หัวใจหยุดเต้น การหายใจล้มเหลว บาดเจ็บสาหัส — ต้องตอบสนองทันที</p></div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-content"><h4>ดูแลอาการจำเพาะของ Trail Running</h4><p>Hyponatremia (ดื่มน้ำมากเกิน), Rhabdomyolysis (กล้ามเนื้อสลาย), Hypothermia/Hyperthermia</p></div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-content"><h4>สาธารณสุขพื้นฐาน</h4><p>ล้างมือที่สถานีบริการ ป้องกันการแพร่เชื้อจากบุคลากรทางการแพทย์สู่นักวิ่ง</p></div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-content"><h4>คาดการณ์สถานการณ์ล่วงหน้า</h4><p>วางแผนรับมือภาวะไตวาย, อุณหภูมิร่างกายต่ำ, หมดสติ — ประสานกับหน่วยงานท้องถิ่น</p></div></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s9-3">๙.๓ บุคลากรทางการแพทย์</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ตำแหน่ง</th><th>ความสำคัญ</th><th>คุณสมบัติ</th></tr></thead>
+      <tbody>
+        <tr><td>ผู้อำนวยการทางการแพทย์</td><td>บังคับ</td><td>แพทย์ที่มีประสบการณ์ด้านการแพทย์ฉุกเฉิน</td></tr>
+        <tr><td>แพทย์</td><td>บังคับ</td><td>เชี่ยวชาญด้านฉุกเฉินที่อาจเป็นอันตรายถึงชีวิต</td></tr>
+        <tr><td>พยาบาล</td><td>บังคับ</td><td>มีใบประกอบวิชาชีพ ประจำสถานีหลัก</td></tr>
+        <tr><td>ผู้ปฏิบัติการฉุกเฉินเบื้องต้น (EMT)</td><td>บังคับ</td><td>ผ่านหลักสูตร EMT ขั้นพื้นฐาน</td></tr>
+        <tr><td>นักกายภาพบำบัด</td><td>ทางเลือก</td><td>ช่วยดูแลอาการกล้ามเนื้อ ข้อต่อ หลังแข่ง</td></tr>
+        <tr><td>ผู้ชำนาญรักษาโรคเท้า (Podiatrist)</td><td>ทางเลือก</td><td>ดูแลแผลพุพอง เล็บ เท้า</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box blue"><span class="icon">📊</span><p><strong>อัตราส่วนแนะนำ:</strong> แพทย์ 1 คน ต่อนักวิ่ง ไม่เกิน 500 คน (ตามแนวทาง ITRA)</p></div>
+
+  <div class="sub-header" id="s9-4">๙.๔ วิธีการและสถานีช่วยเหลือ</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ประเภทสถานี</th><th>ตำแหน่ง</th><th>เวลาตอบสนอง</th><th>อุปกรณ์</th></tr></thead>
+      <tbody>
+        <tr><td><strong>สถานีหลัก</strong></td><td>บริเวณที่มีนักวิ่งผ่านมาก เช่น สถานีบริการ จุดพัก จุดเสี่ยงสูง (โดยเฉพาะหลัง 6 ชม.)</td><td>–</td><td>AED, เครื่องปรับอากาศ/เครื่องทำความร้อน, น้ำสะอาด, ไฟฟ้า, โทรศัพท์</td></tr>
+        <tr><td><strong>สถานีรอง</strong></td><td>ระหว่างสถานีหลัก บนที่สูงหรือพื้นที่เข้าถึงยาก</td><td>&lt;30 นาที</td><td>อุปกรณ์ปฐมพยาบาลเบื้องต้น ผ้าห่มฉุกเฉิน</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-title">วิธีการเข้าช่วยเหลือและนำส่ง</div>
+    <div class="grid-2">
+      <div class="info-box green"><span class="icon">🚗</span><p><strong>พื้นที่รถเข้าได้:</strong> ควรเข้าถึงผู้ป่วยใน &lt;1 ชั่วโมง ใช้รถกระบะ 4x4, รถมอเตอร์ไซค์, UTV</p></div>
+      <div class="info-box orange"><span class="icon">🚶</span><p><strong>พื้นที่รถเข้าไม่ได้:</strong> ต้องมีทีมอย่างน้อย 6 คน ที่ฝึกอบรมการช่วยเหลือ เข้าถึงผู้ป่วยใน &lt;2 ชั่วโมง</p></div>
+      <div class="info-box blue"><span class="icon">🚑</span><p><strong>การนำส่ง:</strong> รถพยาบาล, รถกระบะ 4x4, เฮลิคอปเตอร์ (กรณีฉุกเฉิน) — เลือกตามลักษณะภูมิประเทศ</p></div>
+      <div class="info-box red"><span class="icon">🏔️</span><p><strong>พื้นที่ภูเขาสูง:</strong> ต้องมีการประสานงานล่วงหน้ากับหน่วยกู้ภัยและทีมเฮลิคอปเตอร์ที่ใกล้ที่สุด</p></div>
+    </div>
+  </div>
+
+  <div class="sub-header" id="s9-6">๙.๖ ประเด็นสำคัญ</div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ประเด็น</th><th>สาระสำคัญ</th></tr></thead>
+      <tbody>
+        <tr><td>๙.๖.๑ สภาพอากาศ</td><td>หากอากาศเปลี่ยนรุนแรง ใช้เส้นทางฉุกเฉิน อากาศดีอาจต้องเพิ่มบุคลากรแพทย์เพราะนักวิ่งผลักดันตัวเองหนัก</td></tr>
+        <tr><td>๙.๖.๒ กองอำนวยการ</td><td>ถ้า &gt;1,000 คน ต้องตั้งกองอำนวยการช่วยเหลือฉุกเฉินแยก ต้องมีการสื่อสารร่วมระหว่างกองอำนวยการแข่งขันและกองอำนวยการแพทย์</td></tr>
+        <tr><td>๙.๖.๓ เกณฑ์ประเมิน</td><td>หารือร่วมกันระหว่างผู้รับผิดชอบช่วยเหลือฉุกเฉิน ผู้อำนวยการแข่งขัน และผู้อำนวยการทางการแพทย์</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="info-box yellow"><span class="icon">⚠️</span><p><strong>ปัจจัยที่ต้องพิจารณาในการวางแผนแพทย์:</strong> จำนวนผู้เข้าร่วม (ถ้า &gt;1,000 คน ปรับแผน), ช่วงเวลาแข่ง (กลางวัน/คืน), ลักษณะภูมิประเทศ, ระยะเวลาแข่ง, ข้อจำกัดการเข้าถึงเส้นทาง</p></div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="section" id="checklist">
+  <div class="section-header">
+    <div class="section-num">☑</div>
+    <h2>Checklist ๘๔ รายการ — ตรวจสอบการจัดกิจกรรม</h2>
+  </div>
+  <div class="stat-cards">
+    <div class="stat-card"><div class="val">46</div><div class="lbl">หมวด ๑ ข้อมูลที่ผู้จัดต้องเผยแพร่</div></div>
+    <div class="stat-card"><div class="val">1</div><div class="lbl">หมวด ๒ ข้อมูลผู้สมัคร</div></div>
+    <div class="stat-card"><div class="val">17</div><div class="lbl">หมวด ๓ ก่อนจัดกิจกรรม</div></div>
+    <div class="stat-card"><div class="val">14+6</div><div class="lbl">หมวด ๔+๕ วันจัด+หลังจัด</div></div>
+  </div>
+
+  <!-- หมวด 1 -->
+  <div class="checklist-group">
+    <h4>หมวดที่ ๑ ข้อมูลที่ผู้จัดต้องเผยแพร่ (ข้อ ๑–๔๖)</h4>
+    <div class="check-item"><div class="check-num">๑</div><div class="check-text"><strong>วัตถุประสงค์การจัด</strong> — ระบุชัดเจนว่าจัดเพื่อการแข่งขัน/ความสนุก/กุศล/ส่งเสริมการท่องเที่ยว<div class="check-note">ระบุด้วยว่าได้รับการรับรองระยะทางและผลการแข่งขันอย่างเป็นทางการหรือไม่</div></div></div>
+    <div class="check-item"><div class="check-num">๒</div><div class="check-text"><strong>กติกาการแข่งขัน</strong> — กฎกติกา รูปแบบ เกณฑ์การพิจารณาตัดสิน</div></div>
+    <div class="check-item"><div class="check-num">๓</div><div class="check-text"><strong>วันที่จัดงาน</strong> — วัน เดือน ปี ตั้งแต่เวลาใดถึงเวลาใด</div></div>
+    <div class="check-item"><div class="check-num">๔</div><div class="check-text"><strong>สถานที่ พิกัด และแผนที่</strong> — ละติจูด ลองติจูด แผนที่ตำแหน่ง</div></div>
+    <div class="check-item"><div class="check-num">๕</div><div class="check-text"><strong>ผู้อำนวยการการแข่งขัน (Race Director)</strong> — ชื่อ ตำแหน่ง เบอร์ติดต่อ</div></div>
+    <div class="check-item"><div class="check-num">๖</div><div class="check-text"><strong>การวัดระยะทาง</strong> — วิธีที่ใช้: GPS / รถจักรยานเสือภูเขา / การเดินเท้า<div class="check-note">ระยะทาง Trail Running มักเป็น "โดยประมาณ" เว้นแต่มีการรับรองอย่างเป็นทางการ</div></div></div>
+    <div class="check-item"><div class="check-num">๗</div><div class="check-text"><strong>การประเมิน ITRA</strong> — Endurance Points (0-6), Mountain Level (0-12), Finisher Criteria</div></div>
+    <div class="check-item"><div class="check-num">๘</div><div class="check-text"><strong>เวลาสูงสุดที่อนุญาต</strong> — ระยะทาง (กม.) × เวลาสูงสุด</div></div>
+    <div class="check-item"><div class="check-num">๙</div><div class="check-text"><strong>เวลาปล่อยตัว + Cut-off Time</strong> — แยกตามระยะทาง ทุก Check Point</div></div>
+    <div class="check-item"><div class="check-num">๑๐</div><div class="check-text"><strong>สถานีรับฝากสัมภาระ</strong> — กิโลเมตรที่เท่าไหร่</div></div>
+    <div class="check-item"><div class="check-num">๑๑</div><div class="check-text"><strong>สถานีที่อนุญาตให้มี Supporter</strong> — กิโลเมตรที่เท่าไหร่ ข้อกำหนด</div></div>
+    <div class="check-item"><div class="check-num">๑๒</div><div class="check-text"><strong>ผู้อำนวยการทางการแพทย์และความปลอดภัย</strong> — ชื่อ ตำแหน่ง เบอร์ติดต่อ</div></div>
+    <div class="check-item"><div class="check-num">๑๓</div><div class="check-text"><strong>นักวิ่งปิดท้าย (Sweeper)</strong> — มี/ไม่มี แนบแผนการทำงาน</div></div>
+    <div class="check-item"><div class="check-num">๑๔</div><div class="check-text"><strong>การประเมินความเสี่ยงเส้นทาง</strong> — ทุกกิจกรรมต้องมี แนบเอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๑๕</div><div class="check-text"><strong>แผนที่เส้นทางการแข่งขัน</strong> — บังคับ/ไม่บังคับ แนบไฟล์ GPS</div></div>
+    <div class="check-item"><div class="check-num">๑๖</div><div class="check-text"><strong>คำอธิบายลักษณะภูมิประเทศ</strong> — พื้นผิว จุดผ่านสำคัญ ป้ายและสัญลักษณ์</div></div>
+    <div class="check-item"><div class="check-num">๑๗</div><div class="check-text"><strong>ความสูงสะสม (Elevation Gain)</strong> — ค่าความสูงสะสมทั้งหมด</div></div>
+    <div class="check-item"><div class="check-num">๑๘</div><div class="check-text"><strong>พื้นที่สูงสุด/ต่ำสุด</strong> — แยกตามระยะทาง</div></div>
+    <div class="check-item"><div class="check-num">๑๙</div><div class="check-text"><strong>เส้นทางที่ผ่านถนน</strong> — มี/ไม่มี ระบุจุดตัด แนบเอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๒๐</div><div class="check-text"><strong>การขออนุญาตผ่านทาง</strong> — หน่วยงานที่อนุญาต แนบหนังสือ</div></div>
+    <div class="check-item"><div class="check-num">๒๑</div><div class="check-text"><strong>วิธีการสื่อสาร</strong> — วิทยุ / โทรศัพท์ / Social Media</div></div>
+    <div class="check-item"><div class="check-num">๒๒</div><div class="check-text"><strong>ช่วงระยะเวลาแข่ง</strong> — กลางวัน / กลางคืน / ทั้งคืนและวัน</div></div>
+    <div class="check-item"><div class="check-num">๒๓</div><div class="check-text"><strong>การพยากรณ์อากาศ</strong> — แหล่งข้อมูล ความถี่การติดตาม</div></div>
+    <div class="check-item"><div class="check-num">๒๔</div><div class="check-text"><strong>แผนฉุกเฉินและเส้นทางสำรอง</strong> — กรณีอากาศเลวร้าย/เหตุการณ์ไม่คาดฝัน</div></div>
+    <div class="check-item"><div class="check-num">๒๕</div><div class="check-text"><strong>การส่งกลับนักกีฬา</strong> — กรณีบาดเจ็บ/ถอนตัว/ไม่ผ่าน Cut-off/ฝ่าฝืนกติกา</div></div>
+    <div class="check-item"><div class="check-num">๒๖</div><div class="check-text"><strong>วิธีการเดินทางมายังงาน</strong> — รถประจำทาง รถไฟ รถส่วนตัว เส้นทาง</div></div>
+    <div class="check-item"><div class="check-num">๒๗</div><div class="check-text"><strong>ข้อมูลสถานที่จอดรถ</strong> — ตำแหน่ง จำนวน เส้นทางจากที่จอดรถมายังงาน</div></div>
+    <div class="check-item"><div class="check-num">๒๘</div><div class="check-text"><strong>การแบ่งกลุ่มอายุ</strong> — รุ่นอายุแต่ละระยะ (ปี)</div></div>
+    <div class="check-item"><div class="check-num">๒๙</div><div class="check-text"><strong>จำนวนรับสมัคร</strong> — แยกตามระยะ เช่น 21.1 กม. ≤4,000 คน, 42 กม. ≤5,000 คน</div></div>
+    <div class="check-item"><div class="check-num">๓๐</div><div class="check-text"><strong>ค่าสมัคร</strong> — ราคาปกติ/VIP แยกตามระยะ เช่น 21.1 กม. = 800 บาท</div></div>
+    <div class="check-item"><div class="check-num">๓๑</div><div class="check-text"><strong>วิธีการรับสมัคร</strong> — Online/Website ช่วงวันที่รับสมัคร</div></div>
+    <div class="check-item"><div class="check-num">๓๒</div><div class="check-text"><strong>คุณสมบัติผู้สมัคร</strong> — อายุ สุขภาพ ประสบการณ์ที่ต้องการ</div></div>
+    <div class="check-item"><div class="check-num">๓๓</div><div class="check-text"><strong>อุปกรณ์บังคับ</strong> — รายการ Mandatory Gear ครบ 9 รายการ</div></div>
+    <div class="check-item"><div class="check-num">๓๔</div><div class="check-text"><strong>กำหนดการ</strong> — ตารางเวลาตั้งแต่รับอุปกรณ์จนถึงพิธีปิด</div></div>
+    <div class="check-item"><div class="check-num">๓๕</div><div class="check-text"><strong>รางวัล</strong> — ถ้วย/เงินรางวัล/รางวัลอื่นๆ แยกตามอันดับและรุ่น</div></div>
+    <div class="check-item"><div class="check-num">๓๖</div><div class="check-text"><strong>สิ่งที่ผู้สมัครได้รับ</strong> — เสื้อ BIB เหรียญ และอื่นๆ</div></div>
+    <div class="check-item"><div class="check-num">๓๗</div><div class="check-text"><strong>รายชื่อหน่วยงานร่วมจัด</strong></div></div>
+    <div class="check-item"><div class="check-num">๓๘</div><div class="check-text"><strong>รายชื่อผู้สนับสนุน (Sponsor)</strong></div></div>
+    <div class="check-item"><div class="check-num">๓๙</div><div class="check-text"><strong>ข้อมูลการรับอุปกรณ์</strong> — สถานที่ วันที่ เวลา เอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๔๐</div><div class="check-text"><strong>สถานีบริการระหว่างเส้นทาง</strong> — กิโลเมตรที่เท่าไหร่ มีอะไรบ้าง</div></div>
+    <div class="check-item"><div class="check-num">๔๑</div><div class="check-text"><strong>สถานีบริการทางการแพทย์</strong> — จำนวนสถานีหลัก/รอง ตำแหน่ง<div class="check-note">สถานีหลัก: พื้นที่นักวิ่งมาก, จุดพัก, จุดเสี่ยงสูง โดยเฉพาะช่วงหลัง 6 ชม. | สถานีรอง: ระหว่างสถานีหลัก &lt;30 นาที</div></div></div>
+    <div class="check-item"><div class="check-num">๔๒</div><div class="check-text"><strong>อาหาร-เครื่องดื่มเมื่อเข้าเส้นชัย</strong> — มี/ไม่มี ชนิด จำนวน วิธีรับ</div></div>
+    <div class="check-item"><div class="check-num">๔๓</div><div class="check-text"><strong>บริการอื่นๆ</strong> — รับฝากสัมภาระ, อ่างน้ำเย็น, นวดผ่อนคลาย, กางเต็นท์</div></div>
+    <div class="check-item"><div class="check-num">๔๔</div><div class="check-text"><strong>ข้อห้าม</strong> — ไม้ค้ำยัน (Trekking Pole), อุปกรณ์ฟังเพลง, การทิ้งขยะ</div></div>
+    <div class="check-item"><div class="check-num">๔๕</div><div class="check-text"><strong>นโยบายคืนค่าสมัคร</strong> — เงื่อนไขการคืนเงิน/เลื่อนการแข่งขัน</div></div>
+    <div class="check-item"><div class="check-num">๔๖</div><div class="check-text"><strong>รายละเอียดผู้รับผิดชอบ</strong> — ชื่อ นามสกุล โทรศัพท์ e-mail</div></div>
+  </div>
+
+  <!-- หมวด 2 -->
+  <div class="checklist-group">
+    <h4>หมวดที่ ๒ ข้อมูลผู้สมัคร (ข้อ ๔๗)</h4>
+    <div class="check-item"><div class="check-num">๔๗</div><div class="check-text"><strong>การจัดเก็บข้อมูลทางกายภาพผู้สมัคร</strong><div class="check-note">ชื่อ TH/EN, เลขบัตร/Passport, วันเกิด, เพศ/สัญชาติ, ที่อยู่+โทรศัพท์, ผู้ปกครอง (ถ้าอายุ &lt;18), ทีม, โรคประจำตัว, กรุ๊ปเลือด, ผู้ติดต่อฉุกเฉิน, Waiver</div></div></div>
+  </div>
+
+  <!-- หมวด 3 -->
+  <div class="checklist-group">
+    <h4>หมวดที่ ๓ การดำเนินการก่อนจัดกิจกรรม (ข้อ ๔๘–๖๔)</h4>
+    <div class="check-item"><div class="check-num">๔๘</div><div class="check-text"><strong>ขออนุญาตส่วนราชการในพื้นที่</strong> — อบต./เทศบาล/อำเภอ/จังหวัด แนบเอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๔๙</div><div class="check-text"><strong>ขออนุญาตหน่วยงานความมั่นคง/ทรัพยากรธรรมชาติ</strong> — กรมป่าไม้/อุทยาน แนบเอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๕๐</div><div class="check-text"><strong>ขออนุญาตตำรวจ/จราจร/ทางหลวง</strong> — กรณีผ่านถนนสาธารณะ แนบเอกสาร</div></div>
+    <div class="check-item"><div class="check-num">๕๑</div><div class="check-text"><strong>ประกันอุบัติเหตุผู้เข้าร่วม</strong> — ครอบคลุมทุกคนที่ลงทะเบียน แนบกรมธรรม์</div></div>
+    <div class="check-item"><div class="check-num">๕๒</div><div class="check-text"><strong>เตรียมป้ายและสัญลักษณ์เส้นทาง</strong><div class="check-note">ป้ายระยะทาง, ลูกศรซ้าย/ขวา/กลับตัว, ป้าย 100 ม. ก่อนสถานีน้ำ, ป้ายผิดทาง, สัญลักษณ์นำทาง (ริบบิ้น), ป้าย Cut-off</div></div></div>
+    <div class="check-item"><div class="check-num">๕๓</div><div class="check-text"><strong>เตรียมป้ายประชาสัมพันธ์</strong> — ป้ายไวนิล โปสเตอร์ สื่อออนไลน์</div></div>
+    <div class="check-item"><div class="check-num">๕๔</div><div class="check-text"><strong>จัดแสดงแผนที่การแข่งขัน</strong> — ที่จุดปล่อยตัว แผนที่เอกสาร แผนที่ดิจิทัล GPS</div></div>
+    <div class="check-item"><div class="check-num">๕๕</div><div class="check-text"><strong>ประสานโรงพยาบาล/รถพยาบาล/เครื่อง AED</strong> — แจ้งล่วงหน้า ตกลงแผนรองรับ</div></div>
+    <div class="check-item"><div class="check-num">๕๖</div><div class="check-text"><strong>วางแผนทางการแพทย์</strong><div class="check-note">จำนวนแพทย์ต่อนักวิ่ง (ไม่น้อยกว่า 500:1), จำนวน AED, แผนบริการทุกสถานี</div></div></div>
+    <div class="check-item"><div class="check-num">๕๗</div><div class="check-text"><strong>แผนการเข้าช่วยเหลือในพื้นที่</strong> — รถ 4x4 / UTV / เดินเท้า แนบแผน</div></div>
+    <div class="check-item"><div class="check-num">๕๘</div><div class="check-text"><strong>จัดขบวนรถนำ</strong> — รถเบิกทาง / จักรยานเสือภูเขา นำหน้าผู้เข้าร่วมคนแรก</div></div>
+    <div class="check-item"><div class="check-num">๕๙</div><div class="check-text"><strong>วางผังงาน คำนวณทรัพยากรในงานและสถานีบริการ</strong></div></div>
+    <div class="check-item"><div class="check-num">๖๐</div><div class="check-text"><strong>จัดหาเจ้าหน้าที่/อาสาสมัคร</strong><div class="check-note">การรับสมัคร, ประชาสัมพันธ์, จัดหาทุน, การติดสิน/จับเวลา, การแพทย์, จุดบริการเส้นทาง, ควบคุมเส้นทาง, การสื่อสาร</div></div></div>
+    <div class="check-item"><div class="check-num">๖๑</div><div class="check-text"><strong>จัดเตรียมระบบรับสมัคร</strong> — ใบเสร็จ, แบบฟอร์ม, เจ้าหน้าที่บริการ</div></div>
+    <div class="check-item"><div class="check-num">๖๒</div><div class="check-text"><strong>ออกแบบเสื้อและเหรียญรางวัล + สั่งซื้อ</strong></div></div>
+    <div class="check-item"><div class="check-num">๖๓</div><div class="check-text"><strong>ออกแบบ BIB + สั่งผลิต + เข็มกลัด</strong></div></div>
+    <div class="check-item"><div class="check-num">๖๔</div><div class="check-text"><strong>แผนการยกเลิก/เลื่อนการแข่งขัน</strong><div class="check-note">กรณี: แผ่นดินไหว, ดินถล่ม, น้ำป่า, พายุ, อากาศแปรปรวน — มีแผนสื่อสารและคืนเงินชัดเจน</div></div></div>
+  </div>
+
+  <!-- หมวด 4 -->
+  <div class="checklist-group">
+    <h4>หมวดที่ ๔ การดำเนินการวันจัดกิจกรรม (ข้อ ๖๕–๗๘)</h4>
+    <div class="check-item"><div class="check-num">๖๕</div><div class="check-text"><strong>ติดตั้งป้ายเส้นทางและป้ายข้อมูล</strong> — ตรวจสอบครบทุกจุดก่อนแข่ง</div></div>
+    <div class="check-item"><div class="check-num">๖๖</div><div class="check-text"><strong>ติดตั้งบริเวณงาน</strong><div class="check-note">เวทีปล่อยตัว, เวทีมอบรางวัล, จุดอำนวยการ, ป้ายผ้าใบ, ห้องน้ำ, จุดลงทะเบียน</div></div></div>
+    <div class="check-item"><div class="check-num">๖๗</div><div class="check-text"><strong>รวมพลเจ้าหน้าที่อาสาสมัคร</strong> — Briefing ทุกฝ่าย แจกวิทยุ/อุปกรณ์</div></div>
+    <div class="check-item"><div class="check-num">๖๘</div><div class="check-text"><strong>รวมพลสื่อมวลชน</strong> — Briefing ข้อมูลสำหรับสื่อ แจกเส้นทางถ่ายทำ</div></div>
+    <div class="check-item"><div class="check-num">๖๙</div><div class="check-text"><strong>แจกอุปกรณ์การแข่งขัน</strong> — พิมพ์รายชื่อ ป้าย BIB ชิพ เสื้อ</div></div>
+    <div class="check-item"><div class="check-num">๗๐</div><div class="check-text"><strong>สรุปงานกับเจ้าหน้าที่</strong> — ตำรวจ พนักงานหน่วยงานความมั่นคง ทีมแพทย์</div></div>
+    <div class="check-item"><div class="check-num">๗๑</div><div class="check-text"><strong>อุปกรณ์จุดปล่อยตัว/กลับตัว/เส้นชัย</strong> — เทปชัย นาฬิกา ระบบประกาศเสียง</div></div>
+    <div class="check-item"><div class="check-num">๗๒</div><div class="check-text"><strong>บริการทางการแพทย์</strong><div class="check-note">เต็นท์พยาบาลใกล้เส้นชัย, จุดจอดรถพยาบาล, AED พร้อมใช้, ทีมแพทย์ครบ</div></div></div>
+    <div class="check-item"><div class="check-num">๗๓</div><div class="check-text"><strong>สถานีบริการระหว่างเส้นทาง</strong> — เปิดบริการก่อนนักวิ่งถึง มีน้ำ อาหาร เพียงพอ</div></div>
+    <div class="check-item"><div class="check-num">๗๔</div><div class="check-text"><strong>อุปกรณ์ประจำเส้นทาง</strong> — ป้ายกิโลเมตร ลูกศร ริบบิ้น ป้ายเตือนครบ</div></div>
+    <div class="check-item"><div class="check-num">๗๕</div><div class="check-text"><strong>จุดประมวลผลการแข่งขัน</strong> — เต็นท์ผล โต๊ะจับเวลา คอมพิวเตอร์ เครื่องพิมพ์</div></div>
+    <div class="check-item"><div class="check-num">๗๖</div><div class="check-text"><strong>สถานีบริการอาหาร</strong> — โต๊ะ เก้าอี้ น้ำแข็ง แก้ว ช้อน ส้อม ถังขยะ</div></div>
+    <div class="check-item"><div class="check-num">๗๗</div><div class="check-text"><strong>จุดนัดพบภายหลังการแข่งขัน</strong> — มี/ไม่มี ระบุสถานที่</div></div>
+    <div class="check-item"><div class="check-num">๗๘</div><div class="check-text"><strong>จุดรายงานตัวและแจกรางวัล</strong> — โต๊ะรายงานตัว โต๊ะรางวัล ระบบยืนยันตัวตน</div></div>
+  </div>
+
+  <!-- หมวด 5 -->
+  <div class="checklist-group">
+    <h4>หมวดที่ ๕ การดำเนินการหลังจัดกิจกรรม (ข้อ ๗๙–๘๔)</h4>
+    <div class="check-item"><div class="check-num">๗๙</div><div class="check-text"><strong>รักษาความสะอาดและคืนพื้นที่</strong> — เก็บเครื่องหมาย ขยะ คืนพื้นที่ทุกจุด</div></div>
+    <div class="check-item"><div class="check-num">๘๐</div><div class="check-text"><strong>เผยแพร่ผลการแข่งขัน</strong> — ผลแยกตามรุ่นอายุ เผยแพร่ Website/Social Media</div></div>
+    <div class="check-item"><div class="check-num">๘๑</div><div class="check-text"><strong>เล่าเรื่อง/ภาพ/วีดิโอการแข่งขัน</strong> — สร้าง Content ประชาสัมพันธ์ครั้งต่อไป</div></div>
+    <div class="check-item"><div class="check-num">๘๒</div><div class="check-text"><strong>ขอบคุณสปอนเซอร์ อาสาสมัคร หน่วยงาน เจ้าของพื้นที่</strong></div></div>
+    <div class="check-item"><div class="check-num">๘๓</div><div class="check-text"><strong>ประชุมประเมินผล</strong> — สรุปผลงาน ปัญหา แนวทางแก้ไข</div></div>
+    <div class="check-item"><div class="check-num">๘๔</div><div class="check-text"><strong>สรุปถอดบทเรียนและขอบคุณเจ้าหน้าที่</strong> — บันทึกเป็นเอกสารสำหรับครั้งต่อไป</div></div>
+  </div>
+</section>
+
+<!-- Charts -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-num">📊</div>
+    <h2>สรุปภาพรวมเชิงสถิติ</h2>
+  </div>
+  <div class="grid-2">
+    <div class="chart-container">
+      <h3>การกระจาย Checklist ตามหมวด (84 รายการ)</h3>
+      <canvas id="checklistChart" height="220"></canvas>
+    </div>
+    <div class="chart-container">
+      <h3>ระดับความเสี่ยงตามระยะทาง</h3>
+      <canvas id="riskChart" height="220"></canvas>
+    </div>
+  </div>
+  <div class="chart-container">
+    <h3>ไทม์ไลน์การเตรียมการ (สัปดาห์ก่อนแข่ง)</h3>
+    <canvas id="timelineChart" height="120"></canvas>
+  </div>
+</section>
+
+</main>
+</div>
+
+<button id="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Scroll spy & TOC toggle
+const sections = document.querySelectorAll('.section');
+const tocLinks = document.querySelectorAll('.toc-section-link');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  tocLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + cur) {
+      l.classList.add('active');
+      l.closest('.toc-section').classList.add('open');
+    }
+  });
+  document.getElementById('to-top').style.display = window.scrollY > 400 ? 'flex' : 'none';
+});
+
+// TOC click toggle
+tocLinks.forEach(l => {
+  l.addEventListener('click', function() {
+    const sec = this.closest('.toc-section');
+    sec.classList.toggle('open');
+  });
+});
+
+// Charts
+const chartDefaults = {
+  font: { family: "'Sarabun', sans-serif", size: 12 },
+  color: '#5d6d7e'
+};
+Chart.defaults.font.family = "'Sarabun', sans-serif";
+
+// Checklist donut
+new Chart(document.getElementById('checklistChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['หมวด ๑ ข้อมูลเผยแพร่ (46)', 'หมวด ๒ ข้อมูลผู้สมัคร (1)', 'หมวด ๓ ก่อนจัด (17)', 'หมวด ๔ วันจัด (14)', 'หมวด ๕ หลังจัด (6)'],
+    datasets: [{
+      data: [46, 1, 17, 14, 6],
+      backgroundColor: ['#1a5c38','#2d8653','#f0a500','#e67e22','#c0392b'],
+      borderWidth: 2, borderColor: '#fff'
+    }]
+  },
+  options: {
+    plugins: { legend: { position: 'bottom', labels: { padding: 10, font: { size: 11 } } } },
+    cutout: '60%'
+  }
+});
+
+// Risk bar chart
+new Chart(document.getElementById('riskChart'), {
+  type: 'bar',
+  data: {
+    labels: ['< 8 กม.', '8-16 กม.', '16-32 กม.', '> 32 กม.'],
+    datasets: [{
+      label: 'ระดับความเสี่ยง (%)',
+      data: [25, 45, 65, 90],
+      backgroundColor: ['#27ae60','#8bc34a','#e67e22','#c0392b'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// Timeline bar chart
+new Chart(document.getElementById('timelineChart'), {
+  type: 'bar',
+  data: {
+    labels: ['สำรวจเส้นทางครั้งแรก','ยื่นขออนุญาต','เปิดรับสมัคร','ประกันภัย','จัดซื้ออุปกรณ์','สำรวจซ้ำ','ติดตั้งป้าย','วัน Briefing','วันแข่งขัน'],
+    datasets: [{
+      label: 'ก่อนแข่ง (สัปดาห์)',
+      data: [26, 24, 20, 18, 12, 4, 1, 0.1, 0],
+      backgroundColor: '#2d8653',
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { reverse: true, ticks: { callback: v => v + ' สป.' }, title: { display: true, text: 'สัปดาห์ก่อนการแข่งขัน' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
